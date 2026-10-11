@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدارس وروضة المجد الحديثة</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: #333;
+            direction: rtl;
+        }
+
+        /* Hero / Header Section with Background Image */
+        .hero-section {
+            position: relative;
+            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.85)), 
+                        url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+            padding: 60px 20px 80px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .top-badge {
+            display: inline-block;
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .hero-section h1 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .hero-section p {
+            color: #cbd5e1;
+            font-size: 15px;
+            max-width: 650px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .btn-green {
+            background-color: #22c55e;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-green:hover { background-color: #16a34a; }
+
+        .btn-gray {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-gray:hover { background-color: rgba(255, 255, 255, 0.25); }
+
+        /* Stats Bar */
+        .stats-container {
+            max-width: 900px;
+            margin: -40px auto 40px;
+            position: relative;
+            z-index: 10;
+            background: #ffffff;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            border-left: 1px solid #f1f5f9;
+        }
+        .stat-item:last-child { border-left: none; }
+
+        .stat-item h3 {
+            color: #b91c1c;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .stat-item p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        /* Main Sections Grid */
+        .main-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: #1e293b;
+            margin-bottom: 30px;
+            font-weight: bold;
+            position: relative;
+            display: inline-block;
+        }
+
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 20px;
+        }
+
+        .card-box {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 25px 15px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border: 1px solid #e2e8f0;
+            border-top: 4px solid #ef4444;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .card-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            border-top-color: #b91c1c;
+        }
+
+        .card-icon {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .card-box h3 {
+            font-size: 17px;
+            color: #1e293b;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .card-box p {
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            padding: 25px 20px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        footer h4 {
+            color: #ffffff;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        footer p { margin-bottom: 12px; }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 25px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            text-align: right;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .item-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .item-card img {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 2px solid #ef4444;
+        }
+
+        .item-card h4 {
+            color: #0f172a;
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .item-card p {
+            color: #64748b;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Header -->
+    <header class="hero-section">
+        <div class="top-badge">أهلاً بكم في صرح العلم والمعرفة</div>
+        <h1>نصنع المستقبل بإيمان وتمايز</h1>
+        <p>بيئة تربوية آمنة، كادر تعليمي متميز، ومناهج حديثة لبناء جيل واعد ومبدع.</p>
+        <div class="hero-buttons">
+            <button class="btn-green">📱 سجل الآن عبر الواتساب</button>
+            <button class="btn-gray" onclick="openSectionData('secTab', 'كادر المعلمين')">👨‍🏫 كادر المعلمين</button>
+        </div>
+    </header>
+
+    <!-- Stats Bar -->
+    <div class="stats-container">
+        <div class="stat-item">
+            <h3>27+</h3>
+            <p>عاماً من الازدهار</p>
+        </div>
+        <div class="stat-item">
+            <h3>100%</h3>
+            <p>بيئة آمنة ومتميزة</p>
+        </div>
+        <div class="stat-item">
+            <h3>2</h3>
+            <p>فرعان (رئيسي وروضة)</p>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <main class="main-container">
+        <h2 class="section-title">أقسام المدرسة الرئيسية</h2>
+
+        <div class="sections-grid">
+            <div class="card-box" onclick="openSectionData('adminTab', 'قسم الإدارة')">
+                <div class="card-icon">🏛️</div>
+                <h3>قسم الإدارة</h3>
+                <p>متابعة الشؤون التنفيذية والتربوية وتوفير بيئة تعليمية متكاملة وآمنة</p>
+            </div>
+
+            <div class="card-box" onclick="openSectionData('accTab', 'المحاسبة والتسجيل')">
+                <div class="card-icon">💳</div>
+                <h3>المحاسبة والتسجيل</h3>
+                <p>استقبال الطلاب الجدد وتسهيل إجراءات التسجيل والرسوم لكافة المراحل</p>
+            </div>
+
+            <div class="card-box" onclick="openSectionData('secTab', 'كادر المعلمين')">
+                <div class="card-icon">👨‍🏫</div>
+                <h3>كادر المعلمين</h3>
+                <p>استعراض الكادر التعليمي لجميع المراحل الدراسية</p>
+            </div>
+
+            <div class="card-box" onclick="openSectionData('branchTab', 'موقع الفرعين')">
+                <div class="card-icon">📍</div>
+                <h3>موقع الفرعين</h3>
+                <p>الفرع الرئيسي وفرع الروضة والابتكار - تفاصيل المرافق والتطوير</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <h4>تواصل معنا مباشرة</h4>
+        <p>📍  - عين الباشا | 📞 0780782920</p>
+        <small>© 2026 مدارس وروضة المجد الحديثة - جميع الحقوق محفوظة</small>
+    </footer>
+
+    <!-- Modal Popup for Section Items -->
+    <div class="modal-overlay" id="dataModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal()">✕</button>
+            <h2 id="modalTitle" style="color: #b91c1c; font-size: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">عنوان القسم</h2>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // دالة جلب البيانات المضافة من لوحة التحكم admin.html
+        function getData() {
+            return JSON.parse(localStorage.getItem('school_website_data')) || [];
+        }
+
+        // دالة فتح القسم وعرض المحتوى
+        function openSectionData(sectionKey, title) {
+            document.getElementById('modalTitle').innerText = title;
+            const body = document.getElementById('modalBody');
+            
+            const allItems = getData();
+            const filteredItems = allItems.filter(item => {
+                if (sectionKey === 'secTab') return item.section === 'secTab' || item.section === 'basicTab';
+                return item.section === sectionKey;
+            });
+
+            if (filteredItems.length === 0) {
+                body.innerHTML = '<p style="text-align:center; color:#64748b; padding:35px; font-size:14px;">لا يوجد محتوى مضاف حالياً لهذا القسم.<br>يمكنك إضافة المعلمين والمعلومات من لوحة التحكم (admin.html).</p>';
+            } else {
+                let html = '<div class="items-grid">';
+                filteredItems.forEach(item => {
+                    html += `
+                        <div class="item-card">
+                            <img src="${item.img || 'https://via.placeholder.com/80'}" onerror="this.src='https://via.placeholder.com/80'">
+                            <h4>${item.title}</h4>
+                            <p>${item.desc}</p>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                body.innerHTML = html;
+            }
+
+            document.getElementById('dataModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('dataModal').style.display = 'none';
+        }
+
+        // إغلاق النافذة عند الضغط خارجها
+        window.onclick = function(event) {
+            const modal = document.getElementById('dataModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة إدارة الأقسام والكوادر - مدارس المجد</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --danger: #ef4444;
+            --text: #0f172a;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg); color: var(--text); padding: 20px; line-height: 1.6; }
+        
+        .admin-container { max-width: 1000px; margin: 0 auto; }
+        
+        header { background: var(--primary); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        header h1 { font-size: 24px; margin-bottom: 5px; }
+        header p { opacity: 0.8; font-size: 14px; }
+
+        .panel-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; }
+        @media (max-width: 768px) { .panel-grid { grid-template-columns: 1fr; } }
+
+        .card { background: var(--card-bg); border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }
+        .card h2 { color: var(--primary); font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 14px; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; transition: 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30,58,138,0.1);
+        }
+
+        .btn { background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; font-size: 15px; }
+        .btn:hover { background: var(--primary-hover); }
+
+        .filter-tabs { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+        .tab-btn { background: #e2e8f0; border: none; padding: 8px 14px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 600; white-space: nowrap; }
+        .tab-btn.active { background: var(--primary); color: white; }
+
+        .items-list { display: flex; flex-direction: column; gap: 10px; max-height: 500px; overflow-y: auto; padding-left: 5px; }
+        .item-card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .item-info h4 { font-size: 15px; color: var(--primary); }
+        .item-info p { font-size: 13px; color: #64748b; }
+        .item-badge { display: inline-block; background: #dbeafe; color: #1e40af; font-size: 11px; padding: 2px 8px; border-radius: 12px; margin-top: 4px; font-weight: bold; }
+
+        .btn-delete { background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .btn-delete:hover { background: #dc2626; }
+    </style>
+</head>
+<body>
+
+<div class="admin-container">
+    <header>
+        <h1>🛠️ لوحة تحكم أقسام الموقع الرئيسي</h1>
+        <p>قم بإضافة وتعديل وحذف المحتوى المباشر لجميع الأقسام والكوادر</p>
+    </header>
+
+    <div class="panel-grid">
+        <!-- نموذج الإضافة -->
+        <div class="card">
+            <h2>إضافة عنصر جديد</h2>
+            <form id="addForm">
+                <div class="form-group">
+                    <label>القسم المستهدف:</label>
+                    <select id="sectionSelect" required>
+                        <option value="secTab">كادر التعليم الثانوي</option>
+                        <option value="basicTab">كادر الأساسي والروضة</option>
+                        <option value="adminTab">قسم الإدارة والتعاميم</option>
+                        <option value="accTab">المحاسبة والتسجيل</option>
+                        <option value="branchTab">مواقع الفروع</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>العنوان الرئيسي / الاسم الكامل:</label>
+                    <input type="text" id="titleInput" placeholder="مثال: الأستاذ أحمد / فرع عين الباشا" required>
+                </div>
+
+                <div class="form-group">
+                    <label>الوصف / المادة / التفاصيل:</label>
+                    <textarea id="descInput" rows="3" placeholder="مثال: 🧪 الكيمياء / ساعات الدوام من 8-2" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>مسار الصورة (اختياري):</label>
+                    <input type="text" id="imgInput" placeholder="images/teacher.jpg">
+                </div>
+
+                <button type="submit" class="btn">➕ إضافة للقسم فوراً</button>
+            </form>
+        </div>
+
+        <!-- قائمة العناصر المضافة -->
+        <div class="card">
+            <h2>المحتوى الحالي في الموقع</h2>
+            <div class="filter-tabs">
+                <button class="tab-btn active" onclick="filterItems('all')">الكل</button>
+                <button class="tab-btn" onclick="filterItems('secTab')">الثانوي</button>
+                <button class="tab-btn" onclick="filterItems('adminTab')">الإدارة</button>
+                <button class="tab-btn" onclick="filterItems('accTab')">المحاسبة</button>
+                <button class="tab-btn" onclick="filterItems('branchTab')">الفروع</button>
+            </div>
+
+            <div class="items-list" id="itemsContainer">
+                <!-- يتم استدعاء العناصر ديناميكياً -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const STORAGE_KEY = 'school_website_data';
+
+    // جلب البيانات المخزنة
+    function getStoredData() {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    }
+
+    // حفظ البيانات
+    function saveData(data) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        renderItems();
+    }
+
+    // إضافة عنصر جديد
+    document.getElementById('addForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const newItem = {
+            id: Date.now(),
+            section: document.getElementById('sectionSelect').value,
+            title: document.getElementById('titleInput').value,
+            desc: document.getElementById('descInput').value,
+            img: document.getElementById('imgInput').value || 'https://via.placeholder.com/150'
+        };
+
+        const currentData = getStoredData();
+        currentData.push(newItem);
+        saveData(currentData);
+
+        this.reset();
+        alert('تمت الإضافة بنجاح للموقع!');
+    });
+
+    // حذف عنصر
+    function deleteItem(id) {
+        if(confirm('هل أنت تأكد من حذف هذا العنصر؟')) {
+            const updatedData = getStoredData().filter(item => item.id !== id);
+            saveData(updatedData);
+        }
+    }
+
+    // فلترة وعرض العناصر
+    let currentFilter = 'all';
+    function filterItems(section) {
+        currentFilter = section;
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        renderItems();
+    }
+
+    function renderItems() {
+        const container = document.getElementById('itemsContainer');
+        const data = getStoredData();
+        
+        const filtered = currentFilter === 'all' ? data : data.filter(i => i.section === currentFilter);
+
+        if(filtered.length === 0) {
+            container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding:20px;">لا يوجد محتوى مضاف حالياً لهذا القسم.</p>';
+            return;
+        }
+
+        container.innerHTML = filtered.map(item => `
+            <div class="item-card">
+                <div class="item-info">
+                    <h4>${item.title}</h4>
+                    <p>${item.desc}</p>
+                    <span class="item-badge">${getSectionName(item.section)}</span>
+                </div>
+                <button class="btn-delete" onclick="deleteItem(${item.id})">حذف</button>
+            </div>
+        `).join('');
+    }
+
+    function getSectionName(sec) {
+        const names = {
+            secTab: 'الكادر الثانوي',
+            basicTab: 'الأساسي والروضة',
+            adminTab: 'قسم الإدارة',
+            accTab: 'المحاسبة والتسجيل',
+            branchTab: 'موقع الفروع'
+        };
+        return names[sec] || sec;
+    }
+
+    // العرض الأولي
+    renderItems();
+</script>
+
+</body>
+</html>
